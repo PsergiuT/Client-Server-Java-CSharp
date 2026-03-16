@@ -1,6 +1,7 @@
 package Repo;
 
-public interface RepoUsers {
+
+public interface InterfaceRepoUsers {
     boolean login(String username, String password);
     void logout();
 }
