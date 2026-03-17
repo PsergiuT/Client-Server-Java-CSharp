@@ -15,6 +15,7 @@ public class RepoMeci implements InterfaceRepoMeci{
     public RepoMeci(Properties props) {
         logger.info("Initializing RepoMeci with properties: {} ", props);
         dbUtils = new JdbcUtils(props);
+        dbUtils.getConnection();
     }
 
     @Override

@@ -11,6 +11,7 @@ public class RepoUsers implements InterfaceRepoUsers{
     public RepoUsers(Properties props) {
         logger.info("Initializing RepoUsers with properties: {} ", props);
         dbUtils = new JdbcUtils(props);
+        dbUtils.getConnection();
     }
 
     @Override

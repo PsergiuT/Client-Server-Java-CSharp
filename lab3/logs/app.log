@@ -1,3 +1,12 @@
-14 Mar 2026 13:58:22,216 [main] Repo.RepoUsers 12 <init> - Initializing RepoUsers with properties: {jdbc.url=jdbc:sqlite:basket.db, jdbc.driver=org.sqlite.JDBC} 
-14 Mar 2026 13:58:22,218 [main] Repo.RepoMeci 16 <init> - Initializing RepoMeci with properties: {jdbc.url=jdbc:sqlite:basket.db, jdbc.driver=org.sqlite.JDBC} 
-14 Mar 2026 13:58:22,219 [main] Repo.RepoBilet 16 <init> - Initializing RepoBilet with properties: {jdbc.url=jdbc:sqlite:basket.db, jdbc.driver=org.sqlite.JDBC} 
+17 Mar 2026 17:27:47,505 [main] Repo.RepoUsers 12 <init> - Initializing RepoUsers with properties: {jdbc.url=jdbc:sqlite:basket.db, jdbc.driver=org.sqlite.JDBC} 
+17 Mar 2026 17:27:47,508 [main] Repo.JdbcUtils 37 getConnection - Enter
+17 Mar 2026 17:27:47,508 [main] Repo.JdbcUtils 23 getNewConnection - Enter
+17 Mar 2026 17:27:47,727 [main] Repo.JdbcUtils 46 getConnection - Exit with(org.sqlite.jdbc4.JDBC4Connection@5403f35f)
+17 Mar 2026 17:27:47,728 [main] Repo.RepoMeci 16 <init> - Initializing RepoMeci with properties: {jdbc.url=jdbc:sqlite:basket.db, jdbc.driver=org.sqlite.JDBC} 
+17 Mar 2026 17:27:47,728 [main] Repo.JdbcUtils 37 getConnection - Enter
+17 Mar 2026 17:27:47,728 [main] Repo.JdbcUtils 23 getNewConnection - Enter
+17 Mar 2026 17:27:47,730 [main] Repo.JdbcUtils 46 getConnection - Exit with(org.sqlite.jdbc4.JDBC4Connection@63a12c68)
+17 Mar 2026 17:27:47,731 [main] Repo.RepoBilet 16 <init> - Initializing RepoBilet with properties: {jdbc.url=jdbc:sqlite:basket.db, jdbc.driver=org.sqlite.JDBC} 
+17 Mar 2026 17:27:47,731 [main] Repo.JdbcUtils 37 getConnection - Enter
+17 Mar 2026 17:27:47,731 [main] Repo.JdbcUtils 23 getNewConnection - Enter
+17 Mar 2026 17:27:47,732 [main] Repo.JdbcUtils 46 getConnection - Exit with(org.sqlite.jdbc4.JDBC4Connection@32b260fa)

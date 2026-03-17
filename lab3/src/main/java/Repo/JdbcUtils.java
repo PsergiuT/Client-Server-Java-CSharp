@@ -13,29 +13,19 @@ public class JdbcUtils {
     private Properties jdbcProps;
 
     private static final Logger logger = LogManager.getLogger();
+    private Connection instance = null;
 
     public JdbcUtils(Properties props) {
         jdbcProps = props;
     }
 
-    private Connection instance = null;
-
     private Connection getNewConnection() {
         logger.traceEntry();
 
-        String url = jdbcProps.getProperty("jdbc.url");
-        String user = jdbcProps.getProperty("jdbc.user");
-        String pass = jdbcProps.getProperty("jdbc.pass");
-        logger.info("trying to connect to database ... {}", url);
-        logger.info("user: {}", user);
-        logger.info("pass: {}", pass);
         Connection con = null;
         try {
 
-            if (user != null && pass != null)
-                con = DriverManager.getConnection(url, user, pass);
-            else
-                con = DriverManager.getConnection(url);
+            con = DriverManager.getConnection(jdbcProps.getProperty("jdbc.url"));
         } catch (SQLException e) {
             logger.error(e);
             System.out.println("Error getting connection " + e);

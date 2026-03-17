@@ -15,6 +15,7 @@ public class RepoBilet implements InterfaceRepoBilet{
     public RepoBilet(Properties props) {
         logger.info("Initializing RepoBilet with properties: {} ", props);
         dbUtils = new JdbcUtils(props);
+        dbUtils.getConnection();
     }
 
     @Override
