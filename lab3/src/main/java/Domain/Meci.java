@@ -5,15 +5,15 @@ public class Meci {
     private String descriere;
     private Float pret;
     private Integer nr_locuri;
+    private boolean sold_out;
 
-    public Meci() {
-    }
 
-    public Meci(Long id, String descriere, Float pret, Integer nr_locuri) {
+    public Meci(Long id, String descriere, Float pret, Integer nr_locuri, Boolean sold_out) {
         this.id = id;
         this.descriere = descriere;
         this.pret = pret;
         this.nr_locuri = nr_locuri;
+        this.sold_out = sold_out;
     }
 
     public Long getId() {
@@ -46,6 +46,14 @@ public class Meci {
 
     public void setNr_locuri(Integer nr_locuri) {
         this.nr_locuri = nr_locuri;
+    }
+
+    public void setSold_out(boolean sold_out) {
+        this.sold_out = sold_out;
+    }
+
+    public boolean isSold_out() {
+        return sold_out;
     }
 
     @Override

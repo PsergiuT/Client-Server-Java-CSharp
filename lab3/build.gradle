@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
 group = 'lab3'
@@ -22,14 +23,19 @@ dependencies {
 
 }
 
+javafx {
+    version = "17.0.10"
+    modules = ['javafx.controls', 'javafx.fxml']
+}
+
 application {
-    mainClass = 'ComputerShopMain'
+    mainClass = 'Main'
 }
 
 jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest{
-        attributes('Main-Class':'ComputerShopMain')
+        attributes('Main-Class':'Main')
     }
     from {
         configurations.runtimeClasspath.collect{it.isDirectory() ? it : zipTree(it)}
