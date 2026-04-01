@@ -1,10 +1,10 @@
-package Repo;
+package app.persistence;
 
-import Domain.Bilet;
-import Domain.Meci;
+import app.model.implementation.Meci;
+
 import java.util.List;
 
-public interface IRepoMeci extends IRepo<Long, Meci> {
+public interface IMeciRepository extends ICrudRepository<Long, Meci>{
     List<Meci> findAll();
     Meci findById(Long id_meci);
     void vanzareLocuri(Long id_meci, Integer nr_locuri);

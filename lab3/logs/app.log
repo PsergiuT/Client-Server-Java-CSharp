@@ -1,22 +1,35 @@
-19 Mar 2026 13:01:58,419 [JavaFX-Launcher] Repo.Implementation.RepoUsersDB 22 <init> - Initializing RepoUsersDB with properties: {jdbc.url=jdbc:sqlite:D:/AN2_SEM2/JavaProjects/lab3/basket.db, jdbc.driver=org.sqlite.JDBC} 
-19 Mar 2026 13:01:58,425 [JavaFX-Launcher] Util.JdbcUtils 44 getConnection - Enter
-19 Mar 2026 13:01:58,425 [JavaFX-Launcher] Util.JdbcUtils 23 getNewConnection - Enter
-19 Mar 2026 13:01:58,610 [JavaFX-Launcher] Util.JdbcUtils 53 getConnection - Exit with(org.sqlite.jdbc4.JDBC4Connection@6d4ae385)
-19 Mar 2026 13:01:58,611 [JavaFX-Launcher] Repo.Implementation.RepoMeciDB 26 <init> - Initializing RepoMeciDB with properties: {jdbc.url=jdbc:sqlite:D:/AN2_SEM2/JavaProjects/lab3/basket.db, jdbc.driver=org.sqlite.JDBC} 
-19 Mar 2026 13:01:58,611 [JavaFX-Launcher] Util.JdbcUtils 44 getConnection - Enter
-19 Mar 2026 13:01:58,611 [JavaFX-Launcher] Util.JdbcUtils 23 getNewConnection - Enter
-19 Mar 2026 13:01:58,612 [JavaFX-Launcher] Util.JdbcUtils 53 getConnection - Exit with(org.sqlite.jdbc4.JDBC4Connection@c8290ab)
-19 Mar 2026 13:01:58,613 [JavaFX-Launcher] Repo.Implementation.RepoBiletDB 25 <init> - Initializing RepoBiletDB with properties: {jdbc.url=jdbc:sqlite:D:/AN2_SEM2/JavaProjects/lab3/basket.db, jdbc.driver=org.sqlite.JDBC} 
-19 Mar 2026 13:01:58,613 [JavaFX-Launcher] Util.JdbcUtils 44 getConnection - Enter
-19 Mar 2026 13:01:58,613 [JavaFX-Launcher] Util.JdbcUtils 23 getNewConnection - Enter
-19 Mar 2026 13:01:58,615 [JavaFX-Launcher] Util.JdbcUtils 53 getConnection - Exit with(org.sqlite.jdbc4.JDBC4Connection@2fa09b1d)
-19 Mar 2026 13:01:58,615 [JavaFX-Launcher] App 34 init - App initialized
-19 Mar 2026 13:01:58,634 [JavaFX Application Thread] App 39 start - Starting app, Setting up services
-19 Mar 2026 13:01:58,635 [JavaFX Application Thread] App 43 start - Setting up login scene
-19 Mar 2026 13:02:04,771 [JavaFX Application Thread] Repo.Implementation.RepoUsersDB 29 login - Enter
-19 Mar 2026 13:02:05,086 [JavaFX Application Thread] Repo.Implementation.RepoMeciDB 34 findAll - Enter
-19 Mar 2026 13:02:11,257 [JavaFX Application Thread] Repo.Implementation.RepoMeciDB 101 cautare - Enter
-19 Mar 2026 13:02:17,168 [JavaFX Application Thread] Repo.Implementation.RepoMeciDB 101 cautare - Enter
-19 Mar 2026 13:02:21,758 [JavaFX Application Thread] Repo.Implementation.RepoMeciDB 34 findAll - Enter
-19 Mar 2026 13:02:28,495 [JavaFX Application Thread] Repo.Implementation.RepoMeciDB 101 cautare - Enter
-19 Mar 2026 13:02:29,917 [JavaFX Application Thread] Repo.Implementation.RepoMeciDB 34 findAll - Enter
+30 Mar 2026 16:49:08,863 [JavaFX-Launcher] Repo.Implementation.RepoUsersDB 22 <init> - Initializing RepoUsersDB with properties: {jdbc.url=jdbc:sqlite:lab3/basket.db, jdbc.driver=org.sqlite.JDBC} 
+30 Mar 2026 16:49:08,869 [JavaFX-Launcher] Util.JdbcUtils 44 getConnection - Enter
+30 Mar 2026 16:49:08,870 [JavaFX-Launcher] Util.JdbcUtils 23 getNewConnection - Enter
+30 Mar 2026 16:49:09,167 [JavaFX-Launcher] Util.JdbcUtils 53 getConnection - Exit with(org.sqlite.jdbc4.JDBC4Connection@6bd2a1c9)
+30 Mar 2026 16:49:09,171 [JavaFX-Launcher] Repo.Implementation.RepoMeciDB 26 <init> - Initializing RepoMeciDB with properties: {jdbc.url=jdbc:sqlite:lab3/basket.db, jdbc.driver=org.sqlite.JDBC} 
+30 Mar 2026 16:49:09,173 [JavaFX-Launcher] Util.JdbcUtils 44 getConnection - Enter
+30 Mar 2026 16:49:09,173 [JavaFX-Launcher] Util.JdbcUtils 23 getNewConnection - Enter
+30 Mar 2026 16:49:09,174 [JavaFX-Launcher] Util.JdbcUtils 53 getConnection - Exit with(org.sqlite.jdbc4.JDBC4Connection@31000988)
+30 Mar 2026 16:49:09,177 [JavaFX-Launcher] Repo.Implementation.RepoBiletDB 25 <init> - Initializing RepoBiletDB with properties: {jdbc.url=jdbc:sqlite:lab3/basket.db, jdbc.driver=org.sqlite.JDBC} 
+30 Mar 2026 16:49:09,177 [JavaFX-Launcher] Util.JdbcUtils 44 getConnection - Enter
+30 Mar 2026 16:49:09,177 [JavaFX-Launcher] Util.JdbcUtils 23 getNewConnection - Enter
+30 Mar 2026 16:49:09,178 [JavaFX-Launcher] Util.JdbcUtils 53 getConnection - Exit with(org.sqlite.jdbc4.JDBC4Connection@20dcc081)
+30 Mar 2026 16:49:09,179 [JavaFX-Launcher] App 34 init - App initialized
+30 Mar 2026 16:49:09,199 [JavaFX Application Thread] App 39 start - Starting app, Setting up services
+30 Mar 2026 16:49:09,203 [JavaFX Application Thread] App 43 start - Setting up login scene
+30 Mar 2026 16:49:19,962 [JavaFX Application Thread] Repo.Implementation.RepoUsersDB 29 login - Enter
+30 Mar 2026 16:49:20,404 [JavaFX Application Thread] Repo.Implementation.RepoMeciDB 34 findAll - Enter
+30 Mar 2026 16:53:47,444 [JavaFX Application Thread] Repo.Implementation.RepoMeciDB 34 findAll - Enter
+30 Mar 2026 16:54:13,318 [JavaFX Application Thread] Repo.Implementation.RepoMeciDB 34 findAll - Enter
+30 Mar 2026 16:54:15,202 [JavaFX Application Thread] Repo.Implementation.RepoMeciDB 34 findAll - Enter
+30 Mar 2026 16:54:21,391 [JavaFX Application Thread] Repo.Implementation.RepoBiletDB 32 findById - Enter
+30 Mar 2026 16:54:26,033 [JavaFX Application Thread] Repo.Implementation.RepoBiletDB 32 findById - Enter
+30 Mar 2026 16:54:28,329 [JavaFX Application Thread] Repo.Implementation.RepoMeciDB 34 findAll - Enter
+30 Mar 2026 16:54:28,862 [JavaFX Application Thread] Repo.Implementation.RepoMeciDB 34 findAll - Enter
+30 Mar 2026 16:54:29,019 [JavaFX Application Thread] Repo.Implementation.RepoMeciDB 34 findAll - Enter
+30 Mar 2026 16:54:29,175 [JavaFX Application Thread] Repo.Implementation.RepoMeciDB 34 findAll - Enter
+30 Mar 2026 16:54:32,137 [JavaFX Application Thread] Repo.Implementation.RepoBiletDB 32 findById - Enter
+30 Mar 2026 16:54:42,107 [JavaFX Application Thread] Repo.Implementation.RepoMeciDB 101 cautare - Enter
+30 Mar 2026 16:54:55,562 [JavaFX Application Thread] Repo.Implementation.RepoMeciDB 34 findAll - Enter
+30 Mar 2026 16:57:13,312 [JavaFX Application Thread] Repo.Implementation.RepoBiletDB 32 findById - Enter
+30 Mar 2026 16:57:13,316 [JavaFX Application Thread] Repo.Implementation.RepoMeciDB 60 findById - Enter
+30 Mar 2026 16:57:13,317 [JavaFX Application Thread] Repo.Implementation.RepoMeciDB 85 vanzareLocuri - Enter
+30 Mar 2026 16:57:13,319 [JavaFX Application Thread] Repo.Implementation.RepoBiletDB 75 modifica - Enter
+30 Mar 2026 16:57:13,319 [JavaFX Application Thread] Repo.Implementation.RepoMeciDB 34 findAll - Enter
+30 Mar 2026 16:57:14,341 [JavaFX Application Thread] Repo.Implementation.RepoMeciDB 34 findAll - Enter
