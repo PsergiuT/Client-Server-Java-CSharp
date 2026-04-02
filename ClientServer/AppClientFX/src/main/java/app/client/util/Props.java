@@ -12,7 +12,7 @@ public class Props {
 
     public static Properties getProperties(){
         Properties props = new Properties();
-        try (InputStream input = Props.class.getClassLoader().getResourceAsStream("/client.properties")) {
+        try (InputStream input = Props.class.getClassLoader().getResourceAsStream("client.properties")) {
             if (input == null) {
                 logger.error("Sorry, unable to find server.properties in resources");
                 return null;

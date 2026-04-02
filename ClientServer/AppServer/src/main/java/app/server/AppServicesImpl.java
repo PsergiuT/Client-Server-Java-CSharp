@@ -5,6 +5,7 @@ import app.model.implementation.Users;
 import app.persistence.IBiletRepository;
 import app.persistence.IMeciRepository;
 import app.persistence.IUserRepository;
+import app.persistence.jdbc.exceptions.RepoException;
 import app.services.AppException;
 import app.services.IAppObserver;
 import app.services.IAppServices;
@@ -18,7 +19,7 @@ public class AppServicesImpl implements IAppServices {
     private final IBiletRepository biletRepository;
     private final IMeciRepository meciRepository;
 
-    private Map<String, IAppObserver> loggedClients;            // for easier client search
+    private Map<String, IAppObserver> loggedClients;            // for faster adding and removing clients
 
     public AppServicesImpl(IUserRepository userRepository, IBiletRepository biletRepository, IMeciRepository meciRepository) {
         this.userRepository = userRepository;
@@ -28,13 +29,29 @@ public class AppServicesImpl implements IAppServices {
     }
 
     @Override
-    public void login(Users user, IAppObserver client) throws AppException {
+    public synchronized void login(Users user, IAppObserver client) throws AppException {
+        try{
+            if(!userRepository.login(user.getUsername(), user.getPassword())){
+                throw new AppException("Invalid username or password");
+            }
+            loggedClients.put(user.getUsername(), client);
+        } catch (RepoException e) {
+            throw new AppException(e.getMessage());
+        }
+    }
+
+    @Override
+    public synchronized void logout(Users user, IAppObserver client) throws AppException {
+        IAppObserver localObs = loggedClients.remove(user.getUsername());
+        if(localObs == null){
+            throw new AppException("User not logged in");
+        }
 
     }
 
     @Override
-    public void logout(Users user, IAppObserver client) throws AppException {
-
+    public List<Meci> findAll() throws AppException {
+        return List.of();
     }
 
     @Override

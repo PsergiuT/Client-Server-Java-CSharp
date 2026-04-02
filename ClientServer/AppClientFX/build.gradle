@@ -23,10 +23,10 @@ dependencies {
 }
 
 javafx {
-    version="21"
-    modules = [ 'javafx.controls', 'javafx.fxml'  ]
+    version = "17.0.10"
+    modules = ['javafx.controls', 'javafx.fxml']
 }
 
 application{
-    mainClass='app.client.StartJsonClientFX'
+    mainClass='app.client.ClientLauncher'
 }
