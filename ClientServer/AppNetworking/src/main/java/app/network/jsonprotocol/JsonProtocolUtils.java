@@ -2,6 +2,7 @@ package app.network.jsonprotocol;
 
 import app.model.implementation.Meci;
 import app.model.implementation.Users;
+import app.network.dto.BiletDTO;
 import app.network.dto.MeciDTO;
 import app.network.dto.UtilDTO;
 
@@ -43,18 +44,78 @@ public class JsonProtocolUtils {
 
     public static Response createGetAllMatchesResponse(List<Meci> matches) {
         Response res = new Response();
-        res.setResponseType(ResponseType.GET_ALL_MATCHES);
-        List<MeciDTO> meciuriDTO = new ArrayList<>();
-        for(Meci m: matches){
-            meciuriDTO.add(UtilDTO.getDTO(m));
-        }
-        res.setMeciuri(meciuriDTO);
+        res.setResponseType(ResponseType.GET_MATCHES);
+        res.setMeciuri(getDtoFromMeciuri(matches));
         return res;
     }
 
     public static Request createGetAllMatchesRequest() {
         Request req = new Request();
-        req.setRequestType(RequestType.GET_ALL_MATCHES);
+        req.setRequestType(RequestType.GET_MATCHES);
         return req;
+    }
+
+    public static List<Meci> getMeciuriFromDto(Response res){
+        List<MeciDTO> meciuriDTO = res.getMeciuri();
+        List<Meci> meciuri = new ArrayList<>();
+        for(MeciDTO meci: meciuriDTO){
+            meciuri.add(UtilDTO.getFromDTO(meci));
+        }
+        return meciuri;
+    }
+
+    public static List<MeciDTO> getDtoFromMeciuri(List<Meci> matches){
+        List<MeciDTO> meciuri = new ArrayList<>();
+        for(Meci meci: matches){
+            meciuri.add(UtilDTO.getDTO(meci));
+        }
+        return meciuri;
+    }
+
+    public static Response createBuyTicketResponse() {
+        Response res = new Response();
+        res.setResponseType(ResponseType.BUY_TICKET);
+        return res;
+    }
+
+    public static Request createBuyTicketRequest(){
+        Request req = new Request();
+        req.setRequestType(RequestType.BUY_TICKET);
+        return req;
+    }
+
+    public static Request createSearchMatchesRequest(String adresaClient, String numeClient) {
+        BiletDTO bilet = new BiletDTO();
+        bilet.setAdresaClient(adresaClient);
+        bilet.setNumeClient(numeClient);
+
+        Request req = new Request();
+        req.setRequestType(RequestType.SEARCH_MATCHES);
+        req.setBilet(bilet);
+        return req;
+    }
+
+    public static Request createModifySeatsRequest(String idBiletString, String numarLocuriString) {
+        BiletDTO bilet = new BiletDTO();
+        bilet.setId_bilet(idBiletString);
+        bilet.setNr_locuri(numarLocuriString);
+
+        Request req = new Request();
+        req.setRequestType(RequestType.UPDATE_TICKET);
+        req.setBilet(bilet);
+        return req;
+    }
+
+    public static Response createModifySeatsResponse() {
+        Response res = new Response();
+        res.setResponseType(ResponseType.UPDATE_TICKET);
+        return res;
+    }
+
+    public static Response createSearchMatchesResponse(List<Meci> meciuri) {
+        Response res = new Response();
+        res.setResponseType(ResponseType.GET_MATCHES);
+        res.setMeciuri(getDtoFromMeciuri(meciuri));
+        return res;
     }
 }

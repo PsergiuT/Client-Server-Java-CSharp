@@ -1,5 +1,6 @@
 package app.network.jsonprotocol;
 
+import app.network.dto.BiletDTO;
 import app.network.dto.MeciDTO;
 import app.network.dto.UserDTO;
 
@@ -8,6 +9,25 @@ import java.util.List;
 public class Request {
     private RequestType requestType;
     private UserDTO user;
+    private BiletDTO bilet;
+    private MeciDTO meci;
+
+    public void setBilet(BiletDTO bilet) {
+        this.bilet = bilet;
+    }
+
+    public void setMeci(MeciDTO meci) {
+        this.meci = meci;
+    }
+
+    public MeciDTO getMeci() {
+        return meci;
+    }
+
+    public BiletDTO getBilet() {
+        return bilet;
+    }
+
     private List<MeciDTO> meciuri;
 
     public Request(){

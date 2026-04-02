@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import static app.network.jsonprotocol.RequestType.GET_MATCHES;
+
 public class AppServicesJsonProxy implements IAppServices{
     private String host;
     private int port;
@@ -74,7 +76,7 @@ public class AppServicesJsonProxy implements IAppServices{
 
 
     private boolean isUpdate(Response response){
-        return response.getResponseType() == ResponseType.BOUGHT_TICKET || response.getResponseType() == ResponseType.UPDATED_TICKET;
+        return response.getResponseType() == ResponseType.BUY_TICKET || response.getResponseType() == ResponseType.UPDATE_TICKET;
     }
     private class ReaderThread implements Runnable{
 
@@ -106,22 +108,14 @@ public class AppServicesJsonProxy implements IAppServices{
 
     private void handleUpdate(Response response){
         switch(response.getResponseType()){
-            case BOUGHT_TICKET:
-                List<MeciDTO> meciuriDTO = response.getMeciuri();
-                List<Meci> meciuri = new ArrayList<>();
-                for(MeciDTO meciDTO : meciuriDTO){
-                    meciuri.add(UtilDTO.getFromDTO(meciDTO));
-                }
-                client.soldTicket(meciuri);
+            case BUY_TICKET:
+                List<Meci> meciuriBuy = JsonProtocolUtils.getMeciuriFromDto(response);
+                client.soldTicket(meciuriBuy);
                 break;
 
-            case UPDATED_TICKET:
-                meciuriDTO = response.getMeciuri();
-                meciuri = new ArrayList<>();
-                for(MeciDTO meciDTO : meciuriDTO){
-                    meciuri.add(UtilDTO.getFromDTO(meciDTO));
-                }
-                client.updateTicket(meciuri);
+            case UPDATE_TICKET:
+                List<Meci> meciuriUpd = JsonProtocolUtils.getMeciuriFromDto(response);
+                client.updateTicket(meciuriUpd);
                 break;
         }
 
@@ -213,13 +207,8 @@ public class AppServicesJsonProxy implements IAppServices{
         sendRequest(req);
         Response res = readResponse();
         switch(res.getResponseType()){
-            case GET_ALL_MATCHES:
-                List<MeciDTO> meciuriDTO = res.getMeciuri();
-                List<Meci> meciuri = new ArrayList<>();
-                for(MeciDTO meci: meciuriDTO){
-                    meciuri.add(UtilDTO.getFromDTO(meci));
-                }
-                return meciuri;
+            case GET_MATCHES:
+                return JsonProtocolUtils.getMeciuriFromDto(res);
 
             case ERROR:
                 throw new AppException(res.getErrorMessage());
@@ -229,16 +218,48 @@ public class AppServicesJsonProxy implements IAppServices{
 
     @Override
     public void vanzareBilet(Meci m, String numeClient, String adresaClient, String nr_locuri_string) throws AppException {
+        logger.traceEntry();
+        Request req = JsonProtocolUtils.createBuyTicketRequest();
+        sendRequest(req);
+        Response res = readResponse();
+        switch(res.getResponseType()){
+            case BUY_TICKET:
+                return;
+
+            case ERROR:
+                throw new AppException(res.getErrorMessage());
+        }
 
     }
 
     @Override
     public List<Meci> cautaMeciuri(String adresaClient, String numeClient) throws AppException {
-        return List.of();
+        logger.traceEntry();
+        Request req = JsonProtocolUtils.createSearchMatchesRequest(adresaClient, numeClient);
+        sendRequest(req);
+        Response res = readResponse();
+        switch(res.getResponseType()){
+            case GET_MATCHES:
+                return JsonProtocolUtils.getMeciuriFromDto(res);
+
+            case ERROR:
+                throw new AppException(res.getErrorMessage());
+        }
+        return null;
     }
 
     @Override
     public void modificaLocuri(String id_bilet_string, String numar_locuri_string) throws AppException {
+        logger.traceEntry();
+        Request req = JsonProtocolUtils.createModifySeatsRequest(id_bilet_string, numar_locuri_string);
+        sendRequest(req);
+        Response res = readResponse();
+        switch(res.getResponseType()){
+            case UPDATE_TICKET:
+                return;
 
+            case ERROR:
+                throw new AppException(res.getErrorMessage());
+        }
     }
 }

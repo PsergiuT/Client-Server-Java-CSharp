@@ -2,6 +2,7 @@ package app.network.jsonprotocol;
 
 import app.model.implementation.Meci;
 import app.model.implementation.Users;
+import app.network.dto.BiletDTO;
 import app.network.dto.MeciDTO;
 import app.network.dto.UtilDTO;
 import app.network.utils.TextUtils;
@@ -101,7 +102,7 @@ public class AppClientJsonWorker implements Runnable, IAppObserver{
                     return JsonProtocolUtils.createErrorResponse(e.getMessage());
                 }
 
-            case GET_ALL_MATCHES:
+            case GET_MATCHES:
                 try {
                     List<Meci> matches = services.findAll();
                     return JsonProtocolUtils.createGetAllMatchesResponse(matches);
@@ -109,6 +110,44 @@ public class AppClientJsonWorker implements Runnable, IAppObserver{
                 catch (AppException e){
                     return JsonProtocolUtils.createErrorResponse(e.getMessage());
                 }
+
+            case BUY_TICKET:
+                BiletDTO bilet = req.getBilet();
+                Meci m = UtilDTO.getFromDTO(req.getMeci());
+                try{
+                    String nume_client = bilet.getNumeClient();
+                    String adresa_client = bilet.getAdresaClient();
+                    String numar_locuri = bilet.getNr_locuri();
+                    services.vanzareBilet(m, nume_client, adresa_client, numar_locuri);
+
+                    return JsonProtocolUtils.createBuyTicketResponse();
+                }
+                catch (AppException e){
+                    return JsonProtocolUtils.createErrorResponse(e.getMessage());
+                }
+
+
+            case UPDATE_TICKET:
+                bilet = req.getBilet();
+                try{
+                    services.modificaLocuri(bilet.getId_bilet(), bilet.getNr_locuri());
+                    return JsonProtocolUtils.createModifySeatsResponse();
+                }
+                catch (AppException e){
+                    return JsonProtocolUtils.createErrorResponse(e.getMessage());
+                }
+
+
+            case SEARCH_MATCHES:
+                bilet = req.getBilet();
+                try{
+                    List<Meci> meciuri = services.cautaMeciuri(bilet.getAdresaClient(), bilet.getNumeClient());
+                    return JsonProtocolUtils.createSearchMatchesResponse(meciuri);
+                }
+                catch (AppException e){
+                    return JsonProtocolUtils.createErrorResponse(e.getMessage());
+                }
+
 
             default:
                 return res;
