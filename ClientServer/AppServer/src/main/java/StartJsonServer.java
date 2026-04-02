@@ -1,3 +1,6 @@
+import app.network.utils.AbstractServer;
+import app.network.utils.JsonConcurrentServerImpl;
+import app.network.utils.ServerException;
 import app.persistence.IBiletRepository;
 import app.persistence.IMeciRepository;
 import app.persistence.IUserRepository;
@@ -24,17 +27,24 @@ public class StartJsonServer {
 
         IAppServices services = new AppServicesImpl(userRepo, biletRepo, meciRepo);
 
-        int chatServerPort = defaultPort;
+        int appServerPort = defaultPort;
         try{
-            chatServerPort = Integer.parseInt(props.getProperty("app.server.port"));
+            appServerPort = Integer.parseInt(props.getProperty("app.server.port"));
         }
         catch(NumberFormatException e){
             logger.error(e);
             System.err.println("Error parsing port number: " + e);
         }
-        logger.debug("Starting server on port: "+chatServerPort);
+        logger.debug("Starting server on port: "+appServerPort);
 
         //TODO: create and start server
+        logger.info("Starting server ...");
+        try{
+            AbstractServer server = new JsonConcurrentServerImpl(appServerPort, services);
+            server.start();
+        } catch (ServerException e) {
+            logger.error("Error starting the server" + e.getMessage());
+        }
     }
 }
 

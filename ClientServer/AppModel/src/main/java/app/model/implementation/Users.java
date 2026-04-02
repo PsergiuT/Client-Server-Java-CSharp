@@ -16,6 +16,11 @@ public class Users implements Identifiable<Long> {
         this.password = password;
     }
 
+    public Users(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     @Override
     public Long getId() {
         return id;
