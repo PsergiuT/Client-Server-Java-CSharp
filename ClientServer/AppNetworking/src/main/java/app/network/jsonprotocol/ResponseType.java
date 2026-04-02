@@ -1,5 +1,5 @@
 package app.network.jsonprotocol;
 
 public enum ResponseType {
-    OK, ERROR, BOUGHT_TICKET, UPDATED_TICKET
+    OK, ERROR, BOUGHT_TICKET, UPDATED_TICKET, GET_ALL_MATCHES
 }

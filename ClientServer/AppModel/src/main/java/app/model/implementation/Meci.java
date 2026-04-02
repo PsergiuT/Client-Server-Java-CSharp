@@ -67,6 +67,7 @@ public class Meci implements Identifiable<Long> {
                 ", descriere='" + descriere + '\'' +
                 ", pret=" + pret +
                 ", nr_locuri=" + nr_locuri +
+                ", sold_out=" + sold_out +
                 '}';
     }
 }

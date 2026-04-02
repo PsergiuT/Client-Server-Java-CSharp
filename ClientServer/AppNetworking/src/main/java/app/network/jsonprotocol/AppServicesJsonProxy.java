@@ -45,7 +45,6 @@ public class AppServicesJsonProxy implements IAppServices{
         this.qresponses = new LinkedBlockingQueue<>();
 
         logger.info("Initializing connection socket");
-        initializeConnection();
     }
 
 
@@ -55,11 +54,12 @@ public class AppServicesJsonProxy implements IAppServices{
     private void initializeConnection(){
         try{
             gsonFormatter = new Gson();
-            connection = new Socket(host, port);
+           connection = new Socket(host, port);
             input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             output = new PrintWriter(connection.getOutputStream());
             output.flush();
             finished = false;
+
             logger.info("Starting reader thread");
             startReaderThread();
         } catch (IOException e) {
@@ -94,6 +94,11 @@ public class AppServicesJsonProxy implements IAppServices{
                 } catch (IOException | InterruptedException e) {
                     logger.error(e);
                     logger.error(e.getStackTrace());
+                }
+                try{
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
             }
         }
@@ -166,6 +171,9 @@ public class AppServicesJsonProxy implements IAppServices{
 
     @Override
     public void login(Users user, IAppObserver client) throws AppException {
+        initializeConnection();
+
+        logger.traceEntry();
         user.setPassword(TextUtils.simpleEncode(user.getPassword()));
         Request req = JsonProtocolUtils.createLoginRequest(user);
         sendRequest(req);
@@ -176,7 +184,6 @@ public class AppServicesJsonProxy implements IAppServices{
                 return;
 
             case ERROR:
-                closeConnection();
                 throw new AppException(res.getErrorMessage());
 
 
@@ -185,6 +192,7 @@ public class AppServicesJsonProxy implements IAppServices{
 
     @Override
     public void logout(Users user, IAppObserver client) throws AppException {
+        logger.traceEntry();
         Request req = JsonProtocolUtils.createLogoutRequest(user);
         sendRequest(req);
         Response res = readResponse();
@@ -194,14 +202,29 @@ public class AppServicesJsonProxy implements IAppServices{
                 return;
 
             case ERROR:
-                closeConnection();
                 throw new AppException(res.getErrorMessage());
         }
     }
 
     @Override
     public List<Meci> findAll() throws AppException {
-        return List.of();
+        logger.traceEntry();
+        Request req = JsonProtocolUtils.createGetAllMatchesRequest();
+        sendRequest(req);
+        Response res = readResponse();
+        switch(res.getResponseType()){
+            case GET_ALL_MATCHES:
+                List<MeciDTO> meciuriDTO = res.getMeciuri();
+                List<Meci> meciuri = new ArrayList<>();
+                for(MeciDTO meci: meciuriDTO){
+                    meciuri.add(UtilDTO.getFromDTO(meci));
+                }
+                return meciuri;
+
+            case ERROR:
+                throw new AppException(res.getErrorMessage());
+        }
+        return null;
     }
 
     @Override

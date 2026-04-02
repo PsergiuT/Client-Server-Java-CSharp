@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -29,6 +30,7 @@ public class LoginController {
     private IAppServices services;
     private AppController appController;
     private Users user;
+    private Parent root;
 
     @FXML
     private void initialize(){
@@ -60,17 +62,16 @@ public class LoginController {
     }
 
     private void changeView(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/app.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(loader.load());
+        Stage stage = new Stage();
         stage.setTitle("App");
-        stage.setScene(scene);
-
-        stage.show();
-
+        stage.setScene(new Scene(root));
 
         appController.setUser(user);
-        ((Node)(event.getSource())).getScene().getWindow().hide();
 
+        stage.show();
+    }
+
+    public void setParent(Parent root){
+        this.root = root;
     }
 }

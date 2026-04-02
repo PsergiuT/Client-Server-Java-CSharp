@@ -2,6 +2,7 @@ package app.network.jsonprotocol;
 
 import app.model.implementation.Meci;
 import app.model.implementation.Users;
+import app.network.dto.MeciDTO;
 import app.network.dto.UtilDTO;
 import app.network.utils.TextUtils;
 import app.services.AppException;
@@ -51,9 +52,11 @@ public class AppClientJsonWorker implements Runnable, IAppObserver{
             try {
                 String requestLine = input.readLine();
                 Request request = gsonFormatter.fromJson(requestLine, Request.class);
-                Response response = handleRequest(request);
-                if(response != null){
-                    sendResponse(response);
+                if(request != null) {
+                    Response response = handleRequest(request);
+                    if (response != null) {
+                        sendResponse(response);
+                    }
                 }
             } catch (IOException e) {
                 logger.error(e);
@@ -89,7 +92,23 @@ public class AppClientJsonWorker implements Runnable, IAppObserver{
                 }
 
             case LOGOUT:
-                return null;
+                user = UtilDTO.getFromDTO(req.getUser());
+                user.setPassword(TextUtils.simpleDecode(user.getPassword()));
+                try{
+                    services.logout(user, this);
+                    return okResponse;
+                } catch (AppException e){
+                    return JsonProtocolUtils.createErrorResponse(e.getMessage());
+                }
+
+            case GET_ALL_MATCHES:
+                try {
+                    List<Meci> matches = services.findAll();
+                    return JsonProtocolUtils.createGetAllMatchesResponse(matches);
+                }
+                catch (AppException e){
+                    return JsonProtocolUtils.createErrorResponse(e.getMessage());
+                }
 
             default:
                 return res;

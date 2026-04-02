@@ -17,6 +17,9 @@
         <VBox VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
             <Label text="Meciuri" alignment="CENTER" style="-fx-font-weight: bold; -fx-padding: 0 0 5 0;" />
             <TableView fx:id="MeciuriTableView" VBox.vgrow="ALWAYS">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                </columnResizePolicy>
                 <columns>
                     <TableColumn fx:id="tableColumnMeciId" text="ID" />
                     <TableColumn fx:id="tableColumnMeciDescriere" text="Descriere" />

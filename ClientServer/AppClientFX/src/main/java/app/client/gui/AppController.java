@@ -2,6 +2,7 @@ package app.client.gui;
 
 import app.model.implementation.Meci;
 import app.model.implementation.Users;
+import app.network.jsonprotocol.AppClientJsonWorker;
 import app.services.AppException;
 import app.services.IAppObserver;
 import app.services.IAppServices;
@@ -18,17 +19,19 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class AppController implements IAppObserver , Initializable {
+public class AppController implements IAppObserver{
 
     @FXML
     private TableView<Meci> MeciuriTableView;
-    private ObservableList<Meci> meciModel = FXCollections.observableArrayList();
+    private final ObservableList<Meci> meciModel = FXCollections.observableArrayList();
 
 
     @FXML
@@ -64,21 +67,23 @@ public class AppController implements IAppObserver , Initializable {
     @FXML
     private Button logoutButton;
 
+
     private IAppServices services;
     private Users user;
+    private static Logger logger = LogManager.getLogger(AppClientJsonWorker.class);
 
     public void setService(IAppServices services) {
         this.services = services;
-
-        initModel(services.findAll());
     }
 
     public void setUser(Users user){
         this.user = user;
     }
 
+
     @FXML
     public void initialize() {
+        logger.info("INITIALIZE called on instance: " + this.hashCode());
         tableColumnMeciId.setCellValueFactory(new PropertyValueFactory<>("id"));
         tableColumnMeciDescriere.setCellValueFactory(new PropertyValueFactory<>("descriere"));
         tableColumnMeciPret.setCellValueFactory(new PropertyValueFactory<>("pret"));
@@ -108,7 +113,9 @@ public class AppController implements IAppObserver , Initializable {
     }
 
 
+
     private void initModel(List<Meci> meciuri){
+        // TODO: find out why initialize() is not called
         try {
             meciModel.setAll(meciuri);
         }
@@ -171,19 +178,13 @@ public class AppController implements IAppObserver , Initializable {
 
     @Override
     public void soldTicket(List<Meci> matches) throws AppException {
-
+        initModel(matches);
     }
 
     @Override
     public void updateTicket(List<Meci> matches) throws AppException {
-
+        initModel(matches);
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
 
-    }
-
-    public void setParent(Parent root2) {
-    }
 }

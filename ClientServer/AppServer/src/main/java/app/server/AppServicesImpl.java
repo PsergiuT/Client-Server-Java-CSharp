@@ -50,8 +50,12 @@ public class AppServicesImpl implements IAppServices {
     }
 
     @Override
-    public List<Meci> findAll() throws AppException {
-        return List.of();
+    public synchronized List<Meci> findAll() throws AppException {
+        try{
+            return meciRepository.findAll();
+        }catch(RepoException e){
+            throw new AppException(e.getMessage());
+        }
     }
 
     @Override

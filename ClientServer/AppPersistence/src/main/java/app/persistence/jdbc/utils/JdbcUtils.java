@@ -22,7 +22,7 @@ public class JdbcUtils {
         logger.traceEntry();
 
         try {
-            Connection conn = DriverManager.getConnection(jdbcProps.getProperty("jdbc.url"));
+            Connection conn = DriverManager.getConnection(jdbcProps.getProperty("app.jdbc.url"));
 
             return conn;
         } catch (SQLException e) {

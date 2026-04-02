@@ -1,13 +1,25 @@
 package app.network.jsonprotocol;
 
+import app.network.dto.MeciDTO;
 import app.network.dto.UserDTO;
+
+import java.util.List;
 
 public class Request {
     private RequestType requestType;
     private UserDTO user;
+    private List<MeciDTO> meciuri;
 
     public Request(){
 
+    }
+
+    public List<MeciDTO> getMeciuri(){
+        return meciuri;
+    }
+
+    public void setMeciuri(List<MeciDTO> meciuri){
+        this.meciuri = meciuri;
     }
 
     public RequestType getRequestType() {

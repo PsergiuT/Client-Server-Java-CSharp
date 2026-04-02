@@ -1,9 +1,13 @@
 package app.network.jsonprotocol;
 
+import app.model.implementation.Meci;
 import app.model.implementation.Users;
+import app.network.dto.MeciDTO;
 import app.network.dto.UtilDTO;
 
 import javax.swing.text.Utilities;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JsonProtocolUtils {
     // --- REQUESTS --- //
@@ -37,4 +41,20 @@ public class JsonProtocolUtils {
     }
 
 
+    public static Response createGetAllMatchesResponse(List<Meci> matches) {
+        Response res = new Response();
+        res.setResponseType(ResponseType.GET_ALL_MATCHES);
+        List<MeciDTO> meciuriDTO = new ArrayList<>();
+        for(Meci m: matches){
+            meciuriDTO.add(UtilDTO.getDTO(m));
+        }
+        res.setMeciuri(meciuriDTO);
+        return res;
+    }
+
+    public static Request createGetAllMatchesRequest() {
+        Request req = new Request();
+        req.setRequestType(RequestType.GET_ALL_MATCHES);
+        return req;
+    }
 }
