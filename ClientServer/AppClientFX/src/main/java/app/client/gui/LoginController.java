@@ -62,9 +62,16 @@ public class LoginController {
     }
 
     private void changeView(ActionEvent event) throws IOException {
-        Stage stage = new Stage();
+        usernameField.clear();
+        passwordField.clear();
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle("App");
-        stage.setScene(new Scene(root));
+        Scene scene = root.getScene();
+        if(scene == null){
+            scene = new Scene(root);
+        }
+        stage.setScene(scene);
 
         appController.setUser(user);
 

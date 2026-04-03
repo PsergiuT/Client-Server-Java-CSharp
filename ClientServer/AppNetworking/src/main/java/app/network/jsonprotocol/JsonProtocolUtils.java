@@ -72,15 +72,18 @@ public class JsonProtocolUtils {
         return meciuri;
     }
 
-    public static Response createBuyTicketResponse() {
-        Response res = new Response();
-        res.setResponseType(ResponseType.BUY_TICKET);
-        return res;
-    }
-
-    public static Request createBuyTicketRequest(){
+    public static Request createBuyTicketRequest(Meci m, String numeClient, String adresaClient, String nr_locuri_string){
         Request req = new Request();
         req.setRequestType(RequestType.BUY_TICKET);
+
+        BiletDTO bilet = new BiletDTO();
+        bilet.setNumeClient(numeClient);
+        bilet.setAdresaClient(adresaClient);
+        bilet.setNr_locuri(nr_locuri_string);
+        req.setBilet(bilet);
+
+        MeciDTO meciDto = UtilDTO.getDTO(m);
+        req.setMeci(meciDto);
         return req;
     }
 
@@ -106,16 +109,18 @@ public class JsonProtocolUtils {
         return req;
     }
 
-    public static Response createModifySeatsResponse() {
+    public static Response createBuyTicketResponse(List<Meci> matches) {
         Response res = new Response();
-        res.setResponseType(ResponseType.UPDATE_TICKET);
+        res.setResponseType(ResponseType.BUY_TICKET);
+        res.setMeciuri(getDtoFromMeciuri(matches));
         return res;
     }
 
-    public static Response createSearchMatchesResponse(List<Meci> meciuri) {
+    public static Response createModifySeatsResponse(List<Meci> matches) {
         Response res = new Response();
-        res.setResponseType(ResponseType.GET_MATCHES);
-        res.setMeciuri(getDtoFromMeciuri(meciuri));
+        res.setResponseType(ResponseType.UPDATE_TICKET);
+        res.setMeciuri(getDtoFromMeciuri(matches));
         return res;
     }
+
 }

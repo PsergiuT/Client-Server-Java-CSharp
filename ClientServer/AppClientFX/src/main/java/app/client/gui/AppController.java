@@ -112,6 +112,16 @@ public class AppController implements IAppObserver{
         MeciuriTableView.setItems(meciModel);
     }
 
+    private LoginController loginController;
+    public void setLoginController(LoginController loginController){
+        this.loginController = loginController;
+    }
+
+    private Parent root;
+    public void setParent(Parent root){
+        this.root = root;
+    }
+
 
 
     private void initModel(List<Meci> meciuri){
@@ -164,13 +174,18 @@ public class AppController implements IAppObserver{
 
     @FXML
     public void onLogout(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/login.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(loader.load());
-        stage.setTitle("Login");
-        stage.setScene(scene);
+        try{
+            services.logout(user, this);
+        } catch (AppException e) {
+            errorMessage.setText(e.getMessage());
+        }
 
-        LoginController loginController = loader.getController();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setTitle("App");
+        stage.setScene(root.getScene());
+
+        loginController.setAppController(this);
+        loginController.setParent(logoutButton.getScene().getRoot());
         loginController.setService(services);
 
         stage.show();

@@ -10,11 +10,15 @@ import app.persistence.jdbc.exceptions.RepoException;
 import app.services.AppException;
 import app.services.IAppObserver;
 import app.services.IAppServices;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class AppServicesImpl implements IAppServices {
     private final IUserRepository userRepository;
@@ -22,6 +26,7 @@ public class AppServicesImpl implements IAppServices {
     private final IMeciRepository meciRepository;
 
     private Map<String, IAppObserver> loggedClients;            // for faster adding and removing clients
+    private static final Logger logger = LogManager.getLogger();
 
     public AppServicesImpl(IUserRepository userRepository, IBiletRepository biletRepository, IMeciRepository meciRepository) {
         this.userRepository = userRepository;
@@ -61,7 +66,7 @@ public class AppServicesImpl implements IAppServices {
     }
 
     @Override
-    public void vanzareBilet(Meci m, String numeClient, String adresaClient, String nr_locuri_string) throws AppException {
+    public synchronized void vanzareBilet(Meci m, String numeClient, String adresaClient, String nr_locuri_string) throws AppException {
         try {
             //field validation
             if(Objects.equals(numeClient, "") || Objects.equals(adresaClient, "") || Objects.equals(nr_locuri_string, "")){
@@ -95,11 +100,16 @@ public class AppServicesImpl implements IAppServices {
         }
     }
 
+    private final int numberOfThreads = 3;
     private void notifyVanzareBilet() {
+        logger.debug(loggedClients.toString());
+        ExecutorService executor = Executors.newFixedThreadPool(numberOfThreads);
+        // Implemented a thread pool so that the server isn't forced to sit and wait for the workers (clogged clients) to send the responses over the network
         List<Meci> meciuri = findAll();
         for(IAppObserver obs: loggedClients.values()){
-            obs.soldTicket(meciuri);
+            executor.execute( () -> obs.soldTicket(meciuri));
         }
+        executor.shutdown();
     }
 
 
@@ -107,7 +117,7 @@ public class AppServicesImpl implements IAppServices {
 
 
     @Override
-    public List<Meci> cautaMeciuri(String adresaClient, String numeClient) throws AppException {
+    public synchronized List<Meci> cautaMeciuri(String adresaClient, String numeClient) throws AppException {
         try {
             //repo validation
             return meciRepository.cautare(adresaClient, numeClient);
@@ -122,7 +132,7 @@ public class AppServicesImpl implements IAppServices {
 
 
     @Override
-    public void modificaLocuri(String id_bilet_string, String numar_locuri_string) throws AppException {
+    public synchronized void modificaLocuri(String id_bilet_string, String numar_locuri_string) throws AppException {
         try{
             //field validation
             if(Objects.equals(id_bilet_string, "") || Objects.equals(numar_locuri_string, "")){
@@ -170,9 +180,12 @@ public class AppServicesImpl implements IAppServices {
     }
 
     private void notifyUpdateBilet() {
+        // Implemented a thread pool so that the server isn't forced to sit and wait for the workers (clogged clients) to send the responses over the network
+        ExecutorService executor = Executors.newFixedThreadPool(numberOfThreads);
         List<Meci> meciuri = findAll();
         for(IAppObserver obs: loggedClients.values()){
-            obs.soldTicket(meciuri);
+            executor.execute( () -> obs.updateTicket(meciuri));
         }
+        executor.shutdown();
     }
 }

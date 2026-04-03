@@ -44,13 +44,16 @@ public class StartJsonClientFX extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/login.fxml"));
         Parent root = loader.load();
         LoginController loginCtrl = loader.getController();
-        loginCtrl.setService(services);
 
 
         FXMLLoader appLoader = new FXMLLoader(getClass().getClassLoader().getResource("views/app.fxml"));
         Parent appRoot = appLoader.load();
         AppController appCtrl = appLoader.getController();
         appCtrl.setService(services);
+        appCtrl.setParent(root);
+        appCtrl.setLoginController(loginCtrl);
+
+        loginCtrl.setService(services);
         loginCtrl.setAppController(appCtrl);
         loginCtrl.setParent(appRoot);
 

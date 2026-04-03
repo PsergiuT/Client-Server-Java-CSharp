@@ -2,8 +2,6 @@ package app.network.jsonprotocol;
 
 import app.model.implementation.Meci;
 import app.model.implementation.Users;
-import app.network.dto.MeciDTO;
-import app.network.dto.UtilDTO;
 import app.network.utils.TextUtils;
 import app.services.AppException;
 import app.services.IAppObserver;
@@ -17,13 +15,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import static app.network.jsonprotocol.RequestType.GET_MATCHES;
 
 public class AppServicesJsonProxy implements IAppServices{
     private String host;
@@ -219,11 +214,11 @@ public class AppServicesJsonProxy implements IAppServices{
     @Override
     public void vanzareBilet(Meci m, String numeClient, String adresaClient, String nr_locuri_string) throws AppException {
         logger.traceEntry();
-        Request req = JsonProtocolUtils.createBuyTicketRequest();
+        Request req = JsonProtocolUtils.createBuyTicketRequest(m, numeClient, adresaClient, nr_locuri_string);
         sendRequest(req);
         Response res = readResponse();
         switch(res.getResponseType()){
-            case BUY_TICKET:
+            case OK:
                 return;
 
             case ERROR:
@@ -248,6 +243,7 @@ public class AppServicesJsonProxy implements IAppServices{
         return null;
     }
 
+
     @Override
     public void modificaLocuri(String id_bilet_string, String numar_locuri_string) throws AppException {
         logger.traceEntry();
@@ -255,7 +251,7 @@ public class AppServicesJsonProxy implements IAppServices{
         sendRequest(req);
         Response res = readResponse();
         switch(res.getResponseType()){
-            case UPDATE_TICKET:
+            case OK:
                 return;
 
             case ERROR:

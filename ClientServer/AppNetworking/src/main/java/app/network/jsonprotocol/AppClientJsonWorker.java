@@ -120,7 +120,7 @@ public class AppClientJsonWorker implements Runnable, IAppObserver{
                     String numar_locuri = bilet.getNr_locuri();
                     services.vanzareBilet(m, nume_client, adresa_client, numar_locuri);
 
-                    return JsonProtocolUtils.createBuyTicketResponse();
+                    return okResponse;
                 }
                 catch (AppException e){
                     return JsonProtocolUtils.createErrorResponse(e.getMessage());
@@ -131,7 +131,7 @@ public class AppClientJsonWorker implements Runnable, IAppObserver{
                 bilet = req.getBilet();
                 try{
                     services.modificaLocuri(bilet.getId_bilet(), bilet.getNr_locuri());
-                    return JsonProtocolUtils.createModifySeatsResponse();
+                    return okResponse;
                 }
                 catch (AppException e){
                     return JsonProtocolUtils.createErrorResponse(e.getMessage());
@@ -142,7 +142,7 @@ public class AppClientJsonWorker implements Runnable, IAppObserver{
                 bilet = req.getBilet();
                 try{
                     List<Meci> meciuri = services.cautaMeciuri(bilet.getAdresaClient(), bilet.getNumeClient());
-                    return JsonProtocolUtils.createSearchMatchesResponse(meciuri);
+                    return JsonProtocolUtils.createGetAllMatchesResponse(meciuri);
                 }
                 catch (AppException e){
                     return JsonProtocolUtils.createErrorResponse(e.getMessage());
@@ -168,11 +168,13 @@ public class AppClientJsonWorker implements Runnable, IAppObserver{
 
     @Override
     public void soldTicket(List<Meci> matches) throws AppException {
-        // these will get called from the service
+        logger.traceEntry();
+        sendResponse(JsonProtocolUtils.createBuyTicketResponse(matches));
     }
 
     @Override
     public void updateTicket(List<Meci> matches) throws AppException {
-        // these will get called from the service
+        logger.traceEntry();
+        sendResponse(JsonProtocolUtils.createModifySeatsResponse(matches));
     }
 }
